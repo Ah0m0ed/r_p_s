@@ -63,7 +63,6 @@ function calculateResult(pAction , cAction) {
                     computerScore++;
                     return "You Lose , Paper beats Rock !!";
                 }
-                break;
             case "Paper":
                 if (cAction == "Rock") {
                     playerScore++;
@@ -72,7 +71,6 @@ function calculateResult(pAction , cAction) {
                     computerScore++;
                     return "You Lose , Scissors beats Paper !!";
                 }
-                break;
             case "Scissor":
                 if (cAction == "Paper") {
                     playerScore++;
@@ -81,7 +79,6 @@ function calculateResult(pAction , cAction) {
                     computerScore++;
                     return "You Lose , Rock beats Scissors !!";
                 }
-                break;
         }
     }
 }
