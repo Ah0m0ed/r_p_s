@@ -1,130 +1,118 @@
-function getComputerChoice() {
+let playerScore = 0;
+let computerScore = 0;
+let playerAction = "";
+let computerAction = "";
+
+function getComputerAction() {
     let randNum = Math.random();
-    let choice = "";
-    if (randNum <= 0.333) {
-        choice = "rock";
+    let action = "";
+    if (randNum <= 0.3) {
+        action = "Rock";
     }
-    else if (randNum <= 0.666) {
-        choice = "paper";
+    else if (randNum <= 0.6) {
+        action = "Paper";
     }
     else {
-        choice = "scissors";
+        action = "Scissor";
     }
-    return choice;
+    return action;
 }
 
-function getPlayerChoice() {
-    let choice = prompt("Make a choice Rock , Paper , Scissors");
-    choice = choice.toLowerCase();
-    choice = choice.trim();
-
-    return choice;
-}
-
-function playRound(humanChoice, computerChoice) {
-    if (humanChoice == computerChoice) {
-        console.log("Its a Draw !!");
-        return;
-    }
-
-    switch (humanChoice) {
-        case "rock":
-            if (computerChoice == "scissors") {
-                console.log("You Won , Rock beats Scissors !!");
-                humanScore++;
-                return;
-            } else {
-                console.log("You Lose , Paper beats Rock !!");
-                computerScore++;
-                return;
-            }
-            break;
-        case "paper":
-            if (computerChoice == "rock") {
-                console.log("You Won , Paper beats Rock !!");
-                humanScore++;
-                return;
-            } else {
-                console.log("You Lose , Scissors beats Paper !!");
-                computerScore++;
-                return;
-            }
-            break;
-        case "scissors":
-            if (computerChoice == "paper") {
-                console.log("You Won , Scissors beats Paper !!");
-                humanScore++;
-                return;
-            } else {
-                console.log("You Lose , Rock beats Scissors !!");
-                computerScore++;
-                return;
-            }
-            break;
-    }
-}
-
-function playGame() {
-    let humanScore = 0;
-    let computerScore = 0;
-
-    function playRound(humanChoice, computerChoice) {
-        if (humanChoice == computerChoice) {
-            console.log("Its a Draw !!");
-            return;
-        }
-
-        switch (humanChoice) {
-            case "rock":
-                if (computerChoice == "scissors") {
-                    console.log("You Won , Rock beats Scissors !!");
-                    humanScore++;
-                    return;
-                } else {
-                    console.log("You Lose , Paper beats Rock !!");
-                    computerScore++;
-                    return;
-                }
-                break;
+function getPlayerAction() {
+    let btns = document.querySelector(".btns");
+    btns.addEventListener("click", function (e) {
+        switch (e.target.id) {
             case "paper":
-                if (computerChoice == "rock") {
-                    console.log("You Won , Paper beats Rock !!");
-                    humanScore++;
-                    return;
+                playerAction = "Paper";
+                break;
+            case "rock":
+                playerAction = "Rock";
+                break;
+            case "scissor":
+                playerAction = "Scissor";
+                break;
+        }
+        if (playerAction) {
+            start();
+        }
+    });
+}
+
+function displayComputerAction(action) {
+    let currentAction = document.querySelector(".c-action");
+    currentAction.textContent = action;
+}
+
+function displayPlayerAction(action) {
+    let currentAction = document.querySelector(".p-action");
+    currentAction.textContent = action;
+}
+
+function calculateResult(pAction , cAction) {
+    if (cAction == "Press a Button" || pAction == "Press a Button") {
+        return "Press a Button"
+    } else if (cAction == pAction) {
+        return "Its A Draw";
+    } else {
+        switch (pAction) {
+            case "Rock":
+                if (cAction == "Scissor") {
+                    playerScore++;
+                    return "You Won , Rock beats Scissors !!";
                 } else {
-                    console.log("You Lose , Scissors beats Paper !!");
                     computerScore++;
-                    return;
+                    return "You Lose , Paper beats Rock !!";
                 }
                 break;
-            case "scissors":
-                if (computerChoice == "paper") {
-                    console.log("You Won , Scissors beats Paper !!");
-                    humanScore++;
-                    return;
+            case "Paper":
+                if (cAction == "Rock") {
+                    playerScore++;
+                    return "You Won , Paper beats Rock !!";
                 } else {
-                    console.log("You Lose , Rock beats Scissors !!");
                     computerScore++;
-                    return;
+                    return "You Lose , Scissors beats Paper !!";
+                }
+                break;
+            case "Scissor":
+                if (cAction == "Paper") {
+                    playerScore++;
+                    return "You Won , Scissors beats Paper !!";
+                } else {
+                    computerScore++;
+                    return "You Lose , Rock beats Scissors !!";
                 }
                 break;
         }
     }
-
-    for(let i = 0 ; i < 5 ; i++){
-        playRound(getPlayerChoice(),getComputerChoice());
-        console.log("Player : " + humanScore + ".\n" + "Computer : " + computerScore + ".")
-    }
-
-    if(computerScore < humanScore){
-        console.log("Congrats ... You won !!");
-    }
-    else if(computerScore > humanScore){
-        console.log("Game Over ... You Lost !!");
-    }
-    else{
-        console.log("Game Over ... Its a Draw !!");
-    }
 }
 
-playGame();
+function displayResult(result){
+    let currentResult = document.querySelector(".res");
+    currentResult.textContent = result;
+}
+
+function displayComputerScore(score) {
+    let currentScore = document.querySelector(".c-score");
+    currentScore.textContent = score;
+}
+
+function displayPlayerScore(score) {
+    let currentScore = document.querySelector(".p-score");
+    currentScore.textContent = score;
+}
+
+function start(){
+    computerAction = getComputerAction();
+    displayComputerAction(computerAction);
+    displayPlayerAction(playerAction);
+    let result = calculateResult(playerAction,computerAction);
+    displayResult(result);
+    displayComputerScore(computerScore);
+    displayPlayerScore(playerScore);
+}
+
+getPlayerAction();
+
+
+
+
